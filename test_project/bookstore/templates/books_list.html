@@ -1,0 +1,24 @@
+{% extends  "base.html" %}
+
+{% block title %} Books list {% endblock title %}
+
+{% block content %}
+
+<h2>Books list:</h2>
+<div>
+    <ul>
+        {% for book in books %}
+        {% if book.author_id == author_id.id %}
+        <il>
+        <h2>{{ book.title }}</h2>
+        <h4>Released_year: {{ book.released_year }}</h4>
+            </il>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
+
+</div>
+
+
+{% endblock content %}

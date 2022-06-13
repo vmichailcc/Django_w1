@@ -1,0 +1,17 @@
+{% extends  "base.html" %}
+
+{% block title %} {{ first_name }} {{ last_name }} {% endblock title %}
+
+{% block content %}
+
+<h2>Author detail:</h2>
+<div>
+    <h2> {{ first_name }} {{ last_name }} </h2>
+    <h4> Age: {{ age }} years</h4>
+
+    <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
+    <a href="{% url 'books_list' id %}" class="btn btn-primary">Books list</a>
+</div>
+
+
+{% endblock content %}

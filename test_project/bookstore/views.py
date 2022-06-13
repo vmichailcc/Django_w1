@@ -88,10 +88,28 @@ authors = [
      },
 ]
 
-
-
-
-
 def index(request):
+    context = {
+        "books": books,
+    }
+    return render(request, "index.html", context)
 
-    return render(request, "index.html")
+
+def book_detail(request, id):
+    book = books[int(id)-1]
+    return render(request, "book.html", book)
+
+
+def author_detail(request, id):
+    author = authors[int(id)-1]
+    return render(request, "author.html", author)
+
+
+def author_books(request, id):
+    author_id = authors[int(id)-1]
+    context = {
+        "books": books,
+        "author_id": author_id,
+    }
+    return render(request, "books_list.html", context)
+

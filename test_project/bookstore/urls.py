@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import index
+from .views import index, book_detail, author_detail, author_books
 
 urlpatterns = [
     path('', index, name="index"),
-
+    path('book/<int:id>', book_detail, name="book"),
+    path('author/<int:id>', author_detail, name="author"),
+    path('books/<int:id>', author_books, name="books_list"),
 ]
