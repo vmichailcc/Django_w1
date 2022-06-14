@@ -11,7 +11,9 @@
         {% if book.author_id == author_id.id %}
         <il>
         <h2>{{ book.title }}</h2>
-        <h4>Released_year: {{ book.released_year }}</h4>
+        <h4>Released year: {{ book.released_year }}</h4>
+                <a href="{% url 'book' book.id %}" class="btn btn-primary">Book detail</a>
+
             </il>
         {% endif %}
         {% endfor %}

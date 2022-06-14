@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 # Create your views here.
@@ -96,20 +96,28 @@ def index(request):
 
 
 def book_detail(request, id):
-    book = books[int(id)-1]
-    return render(request, "book.html", book)
+    try:
+        book = books[int(id)-1]
+        return render(request, "book.html", book)
+    except:
+        return HttpResponseNotFound(f"Page {id} not found")
 
 
 def author_detail(request, id):
-    author = authors[int(id)-1]
-    return render(request, "author.html", author)
+    try:
+        author = authors[int(id)-1]
+        return render(request, "author.html", author)
+    except:
+        return HttpResponseNotFound(f"Page {id} not found")
 
 
 def author_books(request, id):
-    author_id = authors[int(id)-1]
-    context = {
-        "books": books,
-        "author_id": author_id,
-    }
-    return render(request, "books_list.html", context)
-
+    try:
+        author_id = authors[int(id)-1]
+        context = {
+            "books": books,
+            "author_id": author_id,
+        }
+        return render(request, "books_list.html", context)
+    except:
+        return HttpResponseNotFound(f"Page {id} not found")
