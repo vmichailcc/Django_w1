@@ -104,4 +104,5 @@ class Author(models.Model):
     last_name = models.CharField(max_length=200)
     age = models.IntegerField()
 
-
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

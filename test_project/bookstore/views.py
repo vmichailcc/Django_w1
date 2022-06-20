@@ -1,9 +1,12 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Book, Author
 
 def index(request):
     books = Book.objects.all()
+    if request.method == "GET" and "search" in request.GET:
+        search = request.GET["search"]
+        books = books.filter(title__icontains=search)
     context = {
         "books": books,
     }
@@ -11,12 +14,9 @@ def index(request):
 
 
 def book_detail(request, pk):
-    try:
-        book = Book.objects.get(pk=pk)
-        context = {"book": book}
-        return render(request, "book.html", context)
-    except:
-        return HttpResponseNotFound(f"Page {pk} not found")
+    book = get_object_or_404(Book, pk=pk)
+    context = {"book": book}
+    return render(request, "book.html", context)
 
 
 def author_detail(request, pk):
