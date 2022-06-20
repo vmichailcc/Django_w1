@@ -20,6 +20,6 @@ from .views import index, book_detail, author_detail, author_books
 urlpatterns = [
     path('', index, name="index"),
     path('book/<int:pk>', book_detail, name="book"),
-    path('author/<int:id>', author_detail, name="author"),
-    path('books/<int:id>', author_books, name="books_list"),
+    path('author/<int:pk>', author_detail, name="author"),
+    path('books/<int:pk>', author_books, name="books_list"),
 ]

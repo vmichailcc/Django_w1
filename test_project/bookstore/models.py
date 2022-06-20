@@ -98,24 +98,10 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-    @staticmethod
-    def create_book():
-        for b in books:
-            book = Book(title=b["title"], released_year=b["released_year"], description=b["description"],
-                        author_id_id=Author.id)
-            book.save()
-
 
 class Author(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     age = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
 
-    @staticmethod
-    def create_authors():
-        for a in authors:
-            author = Author(first_name=a["first_name"], last_name=a["last_name"], age=a["age"])
-            author.save()

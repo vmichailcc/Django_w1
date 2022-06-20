@@ -19,21 +19,22 @@ def book_detail(request, pk):
         return HttpResponseNotFound(f"Page {pk} not found")
 
 
-def author_detail(request, id):
+def author_detail(request, pk):
     try:
-        author = Author.objects.get(pk=id)
-        return render(request, "author.html", author)
+        author = Author.objects.get(pk=pk)
+        context = {"author": author}
+        return render(request, "author.html", context)
     except:
-        return HttpResponseNotFound(f"Page {id} not found")
+        return HttpResponseNotFound(f"Page {pk} not found")
 
 
-def author_books(request, id):
+def author_books(request, pk):
     try:
         books = Book.objects.all()
-        author_id = Author.objects.get(pk=id)
+        author = Author.objects.get(pk=pk)
         context = {
             "books": books,
-            "author_id": author_id,
+            "author": author,
         }
         return render(request, "books_list.html", context)
     except:

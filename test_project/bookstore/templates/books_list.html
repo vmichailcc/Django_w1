@@ -6,9 +6,12 @@
 
 <h2>Books list:</h2>
 <div>
+    {{book.title}}
     <ul>
         {% for book in books %}
-        {% if book.author_id == author_id.id %}
+        <p>{{book.author_id_id}}</p>
+        <p>{{author.id}}</p>
+        {% if book.author_id_id == author.id %}
         <il>
         <h2>{{ book.title }}</h2>
         <h4>Released year: {{ book.released_year }}</h4>
