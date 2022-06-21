@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Author
 from .forms import AddBook, AddAuthor
 
+
 def index(request):
     books = Book.objects.all().order_by("-id")
     if request.method == "GET" and "search" in request.GET:
@@ -40,6 +41,7 @@ def author_books(request, pk):
         return render(request, "books_list.html", context)
     except:
         return HttpResponseNotFound(f"Page {id} not found")
+
 
 def add_book(request):
     if request.method == "POST":
