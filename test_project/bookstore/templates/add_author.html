@@ -1,0 +1,17 @@
+{% extends  "base.html" %}
+
+{% block title %} Add author {% endblock title %}
+
+{% block content %}
+
+<form action="{% url 'add_author' %}" method="post">
+
+{% csrf_token %}
+
+{{ form_author.as_p }}
+
+<button type="submit" class="btn btn-primary btn-block"> Add author</button>
+
+     </form>
+
+{% endblock content %}

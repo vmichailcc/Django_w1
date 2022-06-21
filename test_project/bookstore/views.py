@@ -1,7 +1,7 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Author
-from .forms import AddBook
+from .forms import AddBook, AddAuthor
 
 def index(request):
     books = Book.objects.all().order_by("-id")
@@ -53,3 +53,13 @@ def add_book(request):
     return render(request, "add_book.html", context)
 
 
+def add_author(request):
+    if request.method == "POST":
+        form_author = AddAuthor(request.POST)
+        if form_author.is_valid():
+            form_author.save()
+            return redirect("add_book")
+    else:
+        form_author = AddAuthor()
+    context = {"form_author": form_author}
+    return render(request, "add_author.html", context)
