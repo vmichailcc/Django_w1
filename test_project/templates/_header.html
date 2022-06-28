@@ -11,21 +11,24 @@
           <li><a href="{% url 'add_author' %}" class="nav-link px-2 text-secondary">Add author</a></li>
         </ul>
 
-        <div class="text-end">
           {% if user.is_authenticated %}
-          <form action="{% url 'logout' %}">
-          <button type="submit" class="btn btn-outline-light me-2">Exit, {{ user.username }}</button>
+         <div class="text-end">
+        <form action="{% url 'logout' %}">
+            <button type="submit" class="btn btn-outline-light me-2">Exit, {{ user.username }}</button>
             </form>
+         </div>
           {% else %}
+         <div class="text-end">
           <form action="{% url 'login' %}">
-          <button type="submit" class="btn btn-outline-light me-2">Login</button>
+            <button type="submit" class="btn btn-outline-light me-2">Login</button>
           </form>
+         </div>
+          <div class="text-end">
           <form action="{% url 'register' %}">
             <button type="submit" class="btn btn-warning">Register</button>
           </form>
+           </div>
           {% endif %}
-        </div>
-
       </div>
     </div>
   </header>

@@ -11,11 +11,13 @@
     <h4>Released year: {{ object.released_year }}</h4>
     <h4>Description:</h4>
     <p>{{ object.description }}</p>
+    {% if user.is_authenticated %}
+        <div>
+            <p>Добавить рецензию</p>
+        </div>
+    {% endif %}
     <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
     <a href="{% url 'author' book.author_id_id %}" class="btn btn-primary">About author</a>
 </div>
-{% comment %}
-{% url 'author' object.author_id_id %}
-{% endcomment %}
 
 {% endblock content %}
