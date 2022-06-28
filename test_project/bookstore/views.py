@@ -1,5 +1,5 @@
 from django.http import HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from .models import Book, Author
 from .forms import AddBook, AddAuthor
 
@@ -22,25 +22,19 @@ def book_detail(request, pk):
 
 
 def author_detail(request, pk):
-    try:
-        author = Author.objects.get(pk=pk)
-        context = {"author": author}
-        return render(request, "author.html", context)
-    except:
-        return HttpResponseNotFound(f"Page {pk} not found")
+    author = get_object_or_404(Author, pk=pk)
+    context = {"author": author}
+    return render(request, "author.html", context)
 
 
 def author_books(request, pk):
-    try:
-        books = Book.objects.all()
-        author = Author.objects.get(pk=pk)
-        context = {
-            "books": books,
-            "author": author,
-        }
-        return render(request, "books_list.html", context)
-    except:
-        return HttpResponseNotFound(f"Page {id} not found")
+    author = get_object_or_404(Author, pk=pk)
+    books = get_list_or_404(Book)
+    context = {
+        "books": books,
+        "author": author,
+    }
+    return render(request, "books_list.html", context)
 
 
 def add_book(request):
