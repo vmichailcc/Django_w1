@@ -9,6 +9,7 @@ class Book(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     author_id = models.ForeignKey("Author", on_delete=models.CASCADE, verbose_name="Author")
 
+
     def __str__(self):
         return self.title
 

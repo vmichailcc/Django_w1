@@ -43,10 +43,14 @@ def add_book(request):
         if form.is_valid():
             form.save()
             return redirect("index")
+        else:
+            print(form)
+            print("Invalid Form")
+            print(form.errors)
+            return render(request, "add_book.html", {'form': form})
     else:
         form = AddBook()
-    context = {"form": form}
-    return render(request, "add_book.html", context)
+    return render(request, "add_book.html", {"form": form})
 
 
 def add_author(request):
@@ -55,6 +59,11 @@ def add_author(request):
         if form_author.is_valid():
             form_author.save()
             return redirect("add_book")
+        else:
+            print(form_author)
+            print("Invalid Form")
+            print(form_author.errors)
+            return render(request, "add_author.html", {'form': form_author})
     else:
         form_author = AddAuthor()
     context = {"form_author": form_author}
