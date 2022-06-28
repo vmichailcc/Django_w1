@@ -1,31 +1,48 @@
-from django.http import HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView
 from .models import Book, Author
 from .forms import AddBook, AddAuthor
 
 
-def index(request):
-    books = Book.objects.all().order_by("-id")
-    if request.method == "GET" and "search" in request.GET:
-        search = request.GET["search"]
-        books = books.filter(title__icontains=search)
-    context = {
-        "books": books,
-    }
-    return render(request, "index.html", context)
+class BookView(View):
+    def get(self, request):
+        books = Book.objects.all().order_by("-id")
+        if request.method == "GET" and "search" in request.GET:
+            search = request.GET["search"]
+            books = books.filter(title__icontains=search)
+        context = {
+            "books": books,
+        }
+        return render(request, "index.html", context)
+
+    def post(self, request):
+        books = Book.objects.all().order_by("-id")
+        context = {
+            "books": books,
+        }
+        return render(request, "index.html", context)
 
 
-def book_detail(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    context = {"book": book}
-    return render(request, "book.html", context)
+class BookDetailView(DetailView):
+    model = Book
+    template_name = "book.html"
 
 
-def author_detail(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    context = {"author": author}
-    return render(request, "author.html", context)
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = "author.html"
 
+
+# class AuthorBooksView(View):
+#     def get(self, request):
+#         books = Book.objects.all()
+#         author = Author.objects.get(pk=self.pk)
+#         context = {
+#             "books": books,
+#             "author": author,
+#         }
+#         return render(request, "books_list.html", context)
 
 def author_books(request, pk):
     author = get_object_or_404(Author, pk=pk)

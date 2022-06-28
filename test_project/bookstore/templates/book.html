@@ -1,21 +1,21 @@
 {% extends  "base.html" %}
 
-{% block title %} {{ book.title }} {% endblock title %}
+{% block title %} {{ object.title }} {% endblock title %}
 
 {% block content %}
 
 <h2>Book detail:</h2>
 <br>
 <div>
-    <h2>{{ book.title }}</h2>
-    <h4>Released year: {{ book.released_year }}</h4>
+    <h2>{{ object.title }}</h2>
+    <h4>Released year: {{ object.released_year }}</h4>
     <h4>Description:</h4>
-    <p>{{ book.description }}</p>
+    <p>{{ object.description }}</p>
     <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
     <a href="{% url 'author' book.author_id_id %}" class="btn btn-primary">About author</a>
 </div>
 {% comment %}
-{% url 'author' book.author_id_id %}
+{% url 'author' object.author_id_id %}
 {% endcomment %}
 
 {% endblock content %}
