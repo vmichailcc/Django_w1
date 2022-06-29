@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from .models import Book, Author, BookReview
 from .forms import AddBook, AddAuthor, AddBookReview
+from django.views.generic import FormView
 
 
 class BookView(View):
@@ -43,6 +45,7 @@ class BookInfoView(View):
                 text = request.POST.get('text')
                 form = BookReview.objects.create(book_id=book, user=request.user, text=text)
                 form.save()
+                return redirect("book", pk=pk)
         return render(request, "book.html", context)
 
 
@@ -51,44 +54,32 @@ class AuthorDetailView(DetailView):
     template_name = "author.html"
 
 
-def author_books(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    books = get_list_or_404(Book)
-    context = {
-        "books": books,
-        "author": author,
-    }
-    return render(request, "books_list.html", context)
+class BookAuthor(View):
+    def get(self, request, pk):
+        author = get_object_or_404(Author, pk=pk)
+        books = get_list_or_404(Book)
+        context = {
+            "books": books,
+            "author": author,
+        }
+        return render(request, "books_list.html", context)
 
 
-def add_book(request):
-    if request.method == "POST":
-        form = AddBook(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("index")
-        else:
-            print(form)
-            print("Invalid Form")
-            print(form.errors)
-            return render(request, "add_book.html", {'form': form})
-    else:
-        form = AddBook()
-    return render(request, "add_book.html", {"form": form})
+class AddBookForm(FormView):
+    form_class = AddBook
+    success_url = reverse_lazy('index')
+    template_name = "add_book.html"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
-def add_author(request):
-    if request.method == "POST":
-        form_author = AddAuthor(request.POST)
-        if form_author.is_valid():
-            form_author.save()
-            return redirect("add_book")
-        else:
-            print(form_author)
-            print("Invalid Form")
-            print(form_author.errors)
-            return render(request, "add_author.html", {'form': form_author})
-    else:
-        form_author = AddAuthor()
-    context = {"form_author": form_author}
-    return render(request, "add_author.html", context)
+class AddAuthorForm(FormView):
+    form_class = AddAuthor
+    success_url = reverse_lazy('add_book')
+    template_name = "add_author.html"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

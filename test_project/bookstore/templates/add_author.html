@@ -8,7 +8,7 @@
 
 {% csrf_token %}
 
-{{ form_author.as_p }}
+{{ form.as_p }}
  {% if form.errors %}
        {% for field in form %}
            {% for error in field.errors %}

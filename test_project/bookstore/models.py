@@ -22,7 +22,7 @@ class BookReview(models.Model):
     review_create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.pk} {self.book_id} {self.user}"
+        return f"#{self.pk}, book: {self.book_id}, user: {self.user}"
 
 
 class Author(models.Model):

@@ -14,6 +14,7 @@
 
     {% if user.is_authenticated %}
         <div>
+            <h4>Create review:</h4>
             <form action="" method="post">
 
             {% csrf_token %}
@@ -34,22 +35,24 @@
         </div>
     {% endif %}
 
-    {% for book_review in review %}
-    {% if book_review.book_id_id == book.id %}
-    <div class="card text-center">
-      <div class="card-header">
-        {{ book_review.user }}
-      </div>
-      <div class="card-body">
-        <p class="card-text">{{ book_review.text }}</p>
-      </div>
-      <div class="card-footer text-muted">
-        {{ book_review.review_create_at }}
-      </div>
-    </div>
+    <div>
+        <h4>Book review:</h4>
+        {% for book_review in review %}
+        {% if book_review.book_id_id == book.id %}
+        <div class="card text-center">
+          <div class="card-header">
+            {{ book_review.user }}
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ book_review.text }}</p>
+          </div>
+          <div class="card-footer text-muted">
+            {{ book_review.review_create_at }}
+          </div>
+        </div>
     {% endif %}
     {% endfor %}
-
+    </div>
 
     <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
     <a href="{% url 'author' book.author_id_id %}" class="btn btn-primary">About author</a>
