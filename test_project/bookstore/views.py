@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
-from .models import Book, Author
-from .forms import AddBook, AddAuthor
+from .models import Book, Author, BookReview
+from .forms import AddBook, AddAuthor, AddBookReview
 
 
 class BookView(View):
@@ -24,25 +24,32 @@ class BookView(View):
         return render(request, "index.html", context)
 
 
-class BookDetailView(DetailView):
-    model = Book
-    template_name = "book.html"
+class BookInfoView(View):
+    def get(self, request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        review = get_list_or_404(BookReview)
+        form = AddBookReview()
+        context = {"book": book, "form": form, "review": review}
+        return render(request, "book.html", context)
+
+    def post(self, request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        review = get_list_or_404(BookReview)
+        form = AddBookReview()
+        context = {"book": book, "review": review, "form": form}
+        if request.method == 'POST':
+            form = AddBookReview(request.POST)
+            if form.is_valid():
+                text = request.POST.get('text')
+                form = BookReview.objects.create(book_id=book, user=request.user, text=text)
+                form.save()
+        return render(request, "book.html", context)
 
 
 class AuthorDetailView(DetailView):
     model = Author
     template_name = "author.html"
 
-
-# class AuthorBooksView(View):
-#     def get(self, request):
-#         books = Book.objects.all()
-#         author = Author.objects.get(pk=self.pk)
-#         context = {
-#             "books": books,
-#             "author": author,
-#         }
-#         return render(request, "books_list.html", context)
 
 def author_books(request, pk):
     author = get_object_or_404(Author, pk=pk)

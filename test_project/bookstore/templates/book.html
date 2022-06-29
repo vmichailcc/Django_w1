@@ -1,21 +1,56 @@
 {% extends  "base.html" %}
 
-{% block title %} {{ object.title }} {% endblock title %}
+{% block title %} {{ book.title }} {% endblock title %}
 
 {% block content %}
 
 <h2>Book detail:</h2>
 <br>
 <div>
-    <h2>{{ object.title }}</h2>
-    <h4>Released year: {{ object.released_year }}</h4>
+    <h2>{{ book.title }}</h2>
+    <h4>Released year: {{ book.released_year }}</h4>
     <h4>Description:</h4>
-    <p>{{ object.description }}</p>
+    <p>{{ book.description }}</p>
+
     {% if user.is_authenticated %}
         <div>
-            <p>Добавить рецензию</p>
+            <form action="" method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+             {% if form.errors %}
+                   {% for field in form %}
+                       {% for error in field.errors %}
+                          <div class="alert alert-danger">
+                               <strong>{{ error|escape }}</strong>
+                          </div>
+                       {% endfor %}
+                   {% endfor %}
+                {% endif %}
+            <button type="submit" class="btn btn-primary btn-block"> Add review</button>
+
+            </form>
         </div>
     {% endif %}
+
+    {% for book_review in review %}
+    {% if book_review.book_id_id == book.id %}
+    <div class="card text-center">
+      <div class="card-header">
+        {{ book_review.user }}
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{ book_review.text }}</p>
+      </div>
+      <div class="card-footer text-muted">
+        {{ book_review.review_create_at }}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
     <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
     <a href="{% url 'author' book.author_id_id %}" class="btn btn-primary">About author</a>
 </div>

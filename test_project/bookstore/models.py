@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Book(models.Model):
@@ -14,6 +15,14 @@ class Book(models.Model):
         return self.title
 
 
+class BookReview(models.Model):
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Book ID")
+    text = models.TextField(max_length=4000, verbose_name="Text")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    review_create_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.pk} {self.book_id} {self.user}"
 
 
 class Author(models.Model):

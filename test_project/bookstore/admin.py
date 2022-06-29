@@ -1,11 +1,12 @@
 from django.contrib import admin
-from .models import Book, Author
+from .models import Book, Author, BookReview
 # Register your models here.
+
+admin.site.register(BookReview)
 
 
 class AuthorAdmin(admin.ModelAdmin):
     fields = (('first_name', 'last_name'), 'age')
-
 
 
 class BookAdmin(admin.ModelAdmin):
